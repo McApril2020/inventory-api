@@ -3,24 +3,27 @@ import db from '../db/itemsdb.mjs';
 
 const router = Router();
 
-// const arr = [
-//     {id: 1, item: 'box', quantity: 3},
-//     {id: 2, item: 'ribbon', quantity: 1},
-//     {id: 3, item: 'mirror', quantity: 15},
-// ]
-
 router.get('/items', (req, res, next) => {
     // console.log('this is middleware')
     next();
 }, async (req, res) => {
    try {
-    const response = await db.get_epp_items();
+    const response = await db.get_inventory_items();
     res.json(response)
    } catch(err) {
     console.log(err)
    }
 });
 
+router.get('/get_item/:id', async(req, res) => {
+    try {
+        const id = req.params.id
+        const response = await db.get_item_code(id);
+        res.json(response)
+    } catch (error) {
+        console.log(error);
+    }
+})
 
 // app.get('/items', (req, res) => {
 //     const {item, quantity} = req.query
